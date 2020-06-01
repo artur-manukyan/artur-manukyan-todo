@@ -1,0 +1,163 @@
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.container {
+    height: 95%;
+}
+
+ul {
+    flex-grow: 10;
+    list-style-type: none;
+}
+
+li {
+    border-bottom: 1px solid black;
+}
+
+.fa {
+    cursor: pointer;
+}
+
+.header{
+    flex-grow: 1;
+    width: 100%;
+    height: 420px;
+    background-image: url("https://i.dlpng.com/static/png/7028181_preview.png");
+    /* background: linear-gradient(157deg, rgba(2,152,182,1) 0%, rgba(9,115,125,1) 50%, rgba(2,152,182,1) 100%); */
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.refresh {
+    color: rgb(255, 208, 0);
+    margin-left: 50px;
+    margin-top: 20px;
+    font-size: 30px;
+}
+
+.refresh i:hover {
+    cursor: pointer;
+    transform: rotate(45deg);
+}
+
+#date{
+    /* position: absolute; */
+    color: skyblue;
+    margin-left: 50px;
+    bottom: 10px;
+    left: 10px;
+    font-size: 25px;
+}
+
+.item{
+    width: 95%;
+    height: 100%;
+    min-height: 45px;
+    position: relative;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    cursor: move;
+}
+
+.item:hover {
+    transition: all 0.2s ease-in;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.item i.fa-circle{
+    color: lightgray;
+    position: absolute;
+    font-size: 25px;
+    padding-left:5px;
+    left:15px;
+    top:10px;
+}
+
+.item i.fa-check-circle{
+    color: skyblue;
+    position: absolute;
+    font-size: 25px;
+    padding-left:5px;
+    left:15px;
+    top:10px;
+}
+
+.item p.text{
+    position: absolute;
+    padding:0;
+    margin:0;
+    font-size: 20px;
+    left:50px;
+    top:5px;
+    /* background-color: #FFF; */
+    max-width: 90%;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    /* overflow-wrap: break-word; */
+}
+
+.lineThrough{
+    text-decoration: line-through;
+    color : #ccc;
+}
+
+.item i.fa-trash-o{
+    position: absolute;
+    font-size: 25px;
+    right:15px;
+    top:10px;
+}
+.item i.fa-trash-o:hover{
+    color:#af0000;
+    cursor: pointer;
+}
+
+.add-item{
+    position: relative;
+    width: 92%;
+    height:40px;
+    background-color: #FFF;
+    margin-top: 40px;
+    margin-left: 40px;
+    padding: 10px;
+    border-top: 3px double skyblue;
+}
+.add-item i{
+    margin-left: 4px;
+    position: absolute;
+    font-size: 40px;
+    color: skyblue;
+}
+
+.add-item i:hover {
+    font-size: 45px;
+    color: rgb(116, 203, 238);
+    margin-left: 2px;
+    margin-top: -2px;
+}
+
+.add-item input{
+    margin-left: 10px;
+    margin-top: 2px;
+    position: absolute;
+    left: 50px;
+    height: 35px;
+    width: 95%;
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    padding-left:10px;
+}
+
+input:focus {
+    outline: none;
+}
+
+.draggable.now-dragging {
+    opacity: .3;
+}
