@@ -71,7 +71,6 @@ document.addEventListener( "keyup", function( event ) {
         }
         input.value = "";
         id++
-        setTimeout(function(){ location.reload(); }, 500);
     }
     localStorage.setItem("storedTasks", JSON.stringify(taskList))
 }); 
@@ -93,7 +92,6 @@ plusIcon.addEventListener("click", function( event ) {
     input.value = "";
     id++
     localStorage.setItem("storedTasks", JSON.stringify(taskList))
-    setTimeout(function(){ location.reload(); }, 500);
 });
 
 list.addEventListener("click", function( event ) {
