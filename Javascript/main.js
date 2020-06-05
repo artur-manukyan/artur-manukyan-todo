@@ -19,15 +19,16 @@ bleepComplete.muted = false;
 let taskList = [];
 let id = 0;
 
-function addListItem( inputText, id, done = false, removed = false ) {
+function addListItem( inputText, id, done = false, removed = false, date) {
     if ( removed ) {
         return;
     }
     const doneIcon = done ? checkedIcon : uncheckedIcon;
     const lineTheText = done ? lineThrough : "";
-    const listItem = `<li class="item draggable" draggable="true">
+    const listItem = `<li id="${id}" class="item draggable" draggable="true">
                         <i class="fa ${doneIcon}" button="complete" id="${id}"></i>
                         <p class="text ${lineTheText}">${inputText}</p>
+                        <input type="datetime-local" value="${date}" name="due-date" class="datepicker" button="date" id="${id}" onchange="dateHandler(event);">
                         <i class="fa fa-trash-o delete" button="remove" id="${id}"></i>
                     </li>`;
     const position = "beforeend";
@@ -50,9 +51,37 @@ function removeListitem( element ) {
 
 function loadListItems( array ) {
     array.forEach(element => {
-       addListItem(element.name, element.id, element.done, element.removed);
+       addListItem(element.name, element.id, element.done, element.removed, element.date);
    });
 };
+
+let today = new Date();
+let options = {
+        weekday: "short",
+        month: "short",
+        day: "numeric" }
+todayDateElement.innerHTML = today.toLocaleDateString("en-US", options)
+
+let fromStorage = localStorage.getItem("storedTasks")
+if ( fromStorage ) {
+    taskList = JSON.parse( fromStorage );
+    loadListItems( taskList );
+    id = taskList.length;
+} else {
+    taskList = [];
+    id = 0;
+}
+
+let draggables = document.querySelectorAll(".draggable");
+draggables.forEach(draggable => {
+    draggable.addEventListener("dragstart", () => {
+        draggable.classList.add("now-dragging");
+    })
+
+    draggable.addEventListener("dragend", () => {
+        draggable.classList.remove("now-dragging");
+    })
+})
 
 document.addEventListener( "keyup", function( event ) {
     if ( event.keyCode == 13 ) {
@@ -71,6 +100,16 @@ document.addEventListener( "keyup", function( event ) {
         }
         input.value = "";
         id++
+        draggables = document.querySelectorAll(".draggable");
+        draggables.forEach(draggable => {
+            draggable.addEventListener("dragstart", () => {
+                draggable.classList.add("now-dragging");
+            })
+        
+            draggable.addEventListener("dragend", () => {
+                draggable.classList.remove("now-dragging");
+            })
+        })
     }
     localStorage.setItem("storedTasks", JSON.stringify(taskList))
 }); 
@@ -91,6 +130,16 @@ plusIcon.addEventListener("click", function( event ) {
     }
     input.value = "";
     id++
+    draggables = document.querySelectorAll(".draggable");
+    draggables.forEach(draggable => {
+        draggable.addEventListener("dragstart", () => {
+            draggable.classList.add("now-dragging");
+        })
+    
+        draggable.addEventListener("dragend", () => {
+            draggable.classList.remove("now-dragging");
+        })
+    })
     localStorage.setItem("storedTasks", JSON.stringify(taskList))
 });
 
@@ -102,7 +151,7 @@ list.addEventListener("click", function( event ) {
         bleepComplete.play();
     } else if ( elementButton == "remove" ) {
         removeListitem( element );        
-    }
+    } 
 });
 
 refreshIcon.addEventListener("click", function() {
@@ -112,41 +161,25 @@ refreshIcon.addEventListener("click", function() {
     // setTimeout(function(){ location.reload(); }, 400);
 });
 
-let today = new Date();
-let options = {
-        weekday: "short",
-        month: "short",
-        day: "numeric" }
-todayDateElement.innerHTML = today.toLocaleDateString("en-US", options)
-
-let fromStorage = localStorage.getItem("storedTasks")
-if ( fromStorage ) {
-    taskList = JSON.parse( fromStorage );
-    loadListItems( taskList );
-    id = taskList.length;
-} else {
-    taskList = [];
-    id = 0;
-}
-
 
 // DRAG AND DROP HALF READY :((( 
-const draggables = document.querySelectorAll(".draggable");
+// let draggables = document.querySelectorAll(".draggable");
 const dropContainer = document.getElementById("list")
 
-draggables.forEach(draggable => {
-    draggable.addEventListener("dragstart", () => {
-        draggable.classList.add("now-dragging");
-    })
+// draggables.forEach(draggable => {
+//     draggable.addEventListener("dragstart", () => {
+//         draggable.classList.add("now-dragging");
+//     })
 
-    draggable.addEventListener("dragend", () => {
-        draggable.classList.remove("now-dragging");
-    })
-})
+//     draggable.addEventListener("dragend", () => {
+//         draggable.classList.remove("now-dragging");
+//     })
+// })
 
 dropContainer.addEventListener("dragover", event => {
     event.preventDefault();
     const afterElement = getDragAfterElement(event.clientY);
+    console.log(afterElement);
     const draggable = document.querySelector(".now-dragging");
     if ( afterElement == null ) {
         dropContainer.appendChild(draggable);
@@ -166,4 +199,13 @@ function getDragAfterElement(y) {
             return closest;
         }
     }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+
+// SAVE DUE DATE IN LOCAL STORAGE
+function dateHandler( event ) {
+    const dateItemID = event.target.attributes.id.value;
+    const dateValue = event.target.value;
+    taskList[dateItemID].date = dateValue;
+    localStorage.setItem("storedTasks", JSON.stringify(taskList))
 }
