@@ -25,7 +25,7 @@ li {
     flex-grow: 1;
     width: 100%;
     height: 420px;
-    background-image: url("https://raw.githubusercontent.com/artur-manukyan/todo/master/header1.png");
+    background-image: url("https://i.dlpng.com/static/png/7028181_preview.png");
     /* background: linear-gradient(157deg, rgba(2,152,182,1) 0%, rgba(9,115,125,1) 50%, rgba(2,152,182,1) 100%); */
     background-position: center;
     background-repeat: no-repeat;
@@ -91,9 +91,9 @@ li {
     position: absolute;
     padding:0;
     margin:0;
-    font-size: 20px;
+    font-size: 18px;
     left:50px;
-    top:5px;
+    top:8px;
     /* background-color: #FFF; */
     max-width: 90%;
     overflow-x: hidden;
@@ -160,4 +160,17 @@ input:focus {
 
 .draggable.now-dragging {
     opacity: .3;
+}
+
+.datepicker {
+    position: relative;
+    left: 80%;
+    top: 9px;
+    color: grey;
+    border: none;
+    border-bottom: skyblue 0.3px dotted;
+    padding-bottom: 3px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    background: none;
 }
