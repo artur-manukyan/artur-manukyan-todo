@@ -72,6 +72,8 @@ if ( fromStorage ) {
     id = 0;
 }
 
+input.focus();
+
 let draggables = document.querySelectorAll(".draggable");
 draggables.forEach(draggable => {
     draggable.addEventListener("dragstart", () => {
